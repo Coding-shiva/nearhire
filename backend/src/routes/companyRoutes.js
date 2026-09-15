@@ -1,0 +1,15 @@
+const express = require('express');
+const router = express.Router();
+const {
+  getCompanies,
+  getCompanyById,
+  createCompany,
+} = require('../controllers/companyController');
+const { protect } = require('../middleware/authMiddleware');
+const { authorize } = require('../middleware/roleMiddleware');
+
+router.get('/', getCompanies);
+router.get('/:id', getCompanyById);
+router.post('/', protect, authorize('EMPLOYER', 'ADMIN'), createCompany);
+
+module.exports = router;
